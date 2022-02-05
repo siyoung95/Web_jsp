@@ -42,17 +42,23 @@
 		<div class="row"> <!-- ? -->
 			<div class="col-lg-5 col-md-7 mx-auto"> <!-- 가로 길이 줄임 -->
 				<div class="bg-light p-5 mt-5"> <!-- 폼 전체 이동 -->
-					<form action="loginAction.jsp" method="post">
-						<h3 class="text-center mb-3">로그인 화면</h3>
+					<form action="joinAction.jsp" method="post">
+						<h3 class="text-center mb-3">회원가입 화면</h3>
 						<input type="text" class="form-control mb-3" name="userID" placeholder="아이디" maxlength="20" required>
 						<input type="password" class="form-control mb-3" name="userPassword" placeholder="패스워드" maxlength="20" required>
-						<input type="submit" class="btn btn-primary form-control mb-3" value="로그인">			
+						<input type="text" class="form-control mb-3" name="userName" placeholder="이름" maxlength="20" required>
+						<input class="form-check-input" type="radio" name="userGender" value="남자" checked>
+  						<label class="form-check-label" for="flexRadioDefault1">남자</label>
+  						<input class="form-check-input" type="radio" name="userGender" value="여자">
+  						<label class="form-check-label" for="flexRadioDefault2">여자</label>
+						<input type="email" class="form-control mt-3 mb-3" name="userEmail" placeholder="이메일" maxlength="20" required>
+						<input type="submit" class="btn btn-primary form-control mb-3" value="회원가입">			
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="js/bootstrap.js"></script>
 </body>
 </html>
