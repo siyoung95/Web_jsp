@@ -23,7 +23,7 @@
 					<a class="nav-link" href="main.jsp">메인</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">게시판</a>
+					<a class="nav-link" href="bbs.jsp">게시판</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
@@ -38,7 +38,7 @@
 			</ul>
 		</div>
 	</nav>
-	<div class="container">
+	<div class="container">	
 		<div class="row"> <!-- ? -->
 			<div class="col-lg-5 col-md-7 mx-auto"> <!-- 가로 길이 줄임 -->
 				<div class="bg-light p-5 mt-5"> <!-- 폼 전체 이동 -->

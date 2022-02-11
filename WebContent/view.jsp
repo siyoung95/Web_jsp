@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="bbs.Bbs" %> <!--  -->
+<%@ page import="bbs.BbsDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,18 @@
 		if(session.getAttribute("userID") != null) {
 			userID = (String) session.getAttribute("userID");
 		}
+		/*  */
+		int bbsID = 0;
+		if(request.getParameter("bbsID") != null) {
+			bbsID = Integer.parseInt(request.getParameter("bbsID"));
+		}
+		if(bbsID == 0) {
+			out.println("<script>");
+			out.println("alert('유효하지 않은 글입니다.')");
+			out.println("location.href = 'bbs.jsp'");
+			out.println("</script>");
+		}
+		Bbs bbs = new BbsDAO().getBbs(bbsID);
 	%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="login.jsp">JSP 게시판</a>
@@ -62,51 +76,46 @@
 			%>
 		</div>
 	</nav>
-	<div class="py-5 text-center container">
-		<div class="row py-lg-5">
-			<div class="col-lg-6 col-md-8 mx-auto">
-				<h1>웹 사이트 소개</h1>
-				<p>이 웹사이트는 부트스트랩으로 만든 JSP 웹 사이트입니다. 최소한의 간단한 로직만을 이용해서 개발했습니다.</p>
-				<p><a class="btn btn-primary" href="#" role="button">자세히 알아보기</a></p>
-			</div>
-		</div>
-	</div>
 	<div class="container">
-	<div id="mycarousel" class="carousel slide" data-bs-ride="carousel">
-  		<div class="carousel-indicators">
-    		<button type="button" data-bs-target="#mycarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-   		 	<button type="button" data-bs-target="#mycarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-   		 	<button type="button" data-bs-target="#mycarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  		</div>
-  		<div class="carousel-inner">
-    		<div class="carousel-item active">
-      			<img src="https://cdn.pixabay.com/photo/2022/01/25/12/16/mug-6966047__480.jpg" class="d-block w-100" alt="...">
-      			<div class="carousel-caption d-none d-md-block">
-       	 			<h5>First slide label</h5>
-      			</div>
-    		</div>
-   			 <div class="carousel-item">
-     			 <img src="https://cdn.pixabay.com/photo/2021/11/16/15/35/technology-6801334__480.jpg" class="d-block w-100" alt="...">
-     			 <div class="carousel-caption d-none d-md-block">
-     			   	<h5>Second slide label</h5>
-     			 </div>
-    		 </div>
-   			 <div class="carousel-item">
-     			<img src="https://cdn.pixabay.com/photo/2016/02/17/15/37/laptop-1205256__480.jpg" class="d-block w-100" alt="...">
-      			<div class="carousel-caption d-none d-md-block">
-       				<h5>Third slide label</h5>
-      			</div>
-    		</div>
-  		</div>
-  		<button class="carousel-control-prev" type="button" data-bs-target="#mycarousel" data-bs-slide="prev">
-    		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    		<span class="visually-hidden">Previous</span>
-  		</button>
-  		<button class="carousel-control-next" type="button" data-bs-target="#mycarousel" data-bs-slide="next">
-    		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-   		 <span class="visually-hidden">Next</span>
-  		</button>
-	</div>
+		<div class="row">
+				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+					<thead>
+					<!--  -->
+						<tr>
+							<th colspan="3" style="background-color: #eeeeee; text-align: center;">게시판 글 보기</th>
+						</tr>
+					</thead>
+					<tbody>
+					<!--  -->
+						<tr>
+							<td style="width: 20%;">글 제목</td>
+							<td colspan="2"><%= bbs.getBbsTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt").replaceAll(">", "&gt").replaceAll("\n", "<br>") %></td>					
+						</tr>
+						<tr>
+							<td>작성자</td>
+							<td colspan="2"><%= bbs.getUserID() %></td>					
+						</tr>
+						<tr>
+							<td>작성일자</td>
+							<td colspan="2"><%= bbs.getBbsDate().substring(0, 11) + bbs.getBbsDate().substring(11, 13) + "시" + bbs.getBbsDate().substring(14, 16) + "분" %></td>					
+						</tr>
+						<tr>
+							<td>내용</td>
+							<td colspan="2" style="min-height: 200px; text-align: left;"><%= bbs.getBbsContent().replaceAll(" ", "&nbsp;").replaceAll("<", "&lt").replaceAll(">", "&gt").replaceAll("\n", "<br>") %></td>
+						</tr>
+					</tbody>
+				</table>
+				<!--  -->
+				<a href="bbs.jsp" class="btn btn-primary">목록</a>
+				<%
+					if(userID != null && userID.equals(bbs.getUserID())) {
+				%>
+					<a href="update.jsp?bbsID=<%= bbsID %>" class="btn btn-primary">수정</a>
+					<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?bbsID=<%= bbsID %>" class="btn btn-primary">삭제</a>					
+				<%
+					}
+				%>
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
